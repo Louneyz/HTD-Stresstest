@@ -86,7 +86,7 @@ export function StressTest() {
         {s.step === 'results' && <Results result={result} name={s.details.name} onRestart={() => setS(blank(refCode))} />}
       </main>
 
-      <footer className="band">
+      <footer className={`band ${s.step === 'results' ? '' : 'quiet'}`}>
         <b>Master yourself. Lead with intention.</b>
         <span>Be sage. Be resilient. Be the habit.</span>
       </footer>
@@ -97,25 +97,28 @@ export function StressTest() {
 function Intro({ onStart, demo, onSample }: { onStart: () => void; demo: boolean; onSample: () => void }) {
   return (
     <section className="intro">
-      <p className="kicker">Headtrash Dojo</p>
-      <h1>The Stress Test</h1>
-      <p className="pill">How do you handle it when the pressure’s on?</p>
-      <p className="lead">
-        Everybody handles stress differently. Some of us take over. Some keep the peace. Some go quiet and hope it passes.
-        Most of us never notice which one we’re doing, because from the inside it just feels like common sense.
-      </p>
-      <p className="lead">This shows you. Answer like it’s a normal Tuesday, not your best day.</p>
-      <div className="cards3">
-        <div className="mini"><span className="num">{CORE_COUNT}</span><p>quick questions</p></div>
-        <div className="mini"><span className="num">5 min</span><p>about as long as a coffee</p></div>
-        <div className="mini red"><span className="num">0</span><p>right answers. Just honest ones.</p></div>
+      <div className="intro-l">
+        <p className="kicker">Headtrash Dojo</p>
+        <h1>The Stress Test</h1>
+        <p className="pill">How do you handle it when the pressure’s on?</p>
+        <p className="lead">
+          Everybody handles stress differently. Some of us take over. Some keep the peace. Some go quiet and hope it passes.
+          Most of us never notice which one we’re doing. This shows you.
+        </p>
+        <div className="stats">
+          <div><b>{CORE_COUNT}</b><span>quick questions</span></div>
+          <div><b>5 min</b><span>about a coffee</span></div>
+          <div className="r"><b>0</b><span>right answers</span></div>
+        </div>
+        <button className="btn" onClick={onStart}>Start the test</button>
+        <p className="tue">Answer like it’s a normal Tuesday, not your best day.</p>
+        {demo && <button className="link" onClick={onSample}>Demo: skip to sample results</button>}
       </div>
-      <button className="btn" onClick={onStart}>Start the test</button>
       <blockquote className="joe">
-        “I built this so you’d have a name for what happens under pressure. Knowing the name isn’t the work. But it’s a good place to start.”
-        <span>Joe</span>
+        <span className="q" aria-hidden>“</span>
+        I built this so you’d have a name for what happens under pressure. Knowing the name isn’t the work. But it’s a good place to start.
+        <span className="by">Joe Heraldo</span>
       </blockquote>
-      {demo && <button className="link" onClick={onSample}>Demo: skip to sample results</button>}
     </section>
   );
 }
@@ -196,7 +199,7 @@ function ScenarioStep({ index, picks, onPick, onBack, onNext }: {
       <Progress done={STATEMENTS.length + index} label={`Part 2 · ${index + 1} of ${SCENARIOS.length}`} />
       <div className="qcard">
         <p className="kicker">Pressure moment</p>
-        <h2 key={sc.id}>{sc.setup}</h2>
+        <h2 key={sc.id} className="scen">{sc.setup}</h2>
         <p className="sub">What would you actually do? Not what you’d like to do.</p>
         <div className="opts">
           {sc.options.map((o, i) => (
