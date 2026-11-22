@@ -135,3 +135,39 @@ h1 { font-size: clamp(44px, 7vw, 76px); font-weight: 800; line-height: 1.02; let
   .slashes { width: 40vw; }
   .band { margin-right: 0; clip-path: none; }
 }
+
+/* v2 additions */
+.joe { margin-top: 30px; max-width: 620px; border-left: 4px solid var(--red); padding: 4px 0 4px 18px; font-size: 16px; font-style: italic; line-height: 1.6; color: var(--navy); }
+.joe span { display: block; margin-top: 6px; font-style: normal; font-weight: 800; font-size: 13px; color: var(--red); }
+.hint, .sub { margin-top: 14px; font-size: 14px; color: var(--muted); }
+.sub { margin-top: 8px; }
+.opts { display: grid; gap: 10px; margin-top: 22px; }
+.opts button { display: flex; align-items: flex-start; gap: 14px; text-align: left; background: #fff; border: 2px solid transparent; border-radius: 16px; padding: 16px 18px; font-size: 16px; line-height: 1.45; color: var(--navy); transition: border-color 0.15s ease; }
+.opts button:hover { border-color: var(--line); }
+.opts button.on { border-color: var(--red); background: var(--red-soft); }
+.opts .ol { flex: none; width: 28px; height: 28px; border-radius: 50%; background: var(--navy); color: #fff; display: grid; place-items: center; font-size: 13px; font-weight: 800; }
+.opts button.on .ol { background: var(--red); }
+.honest { margin-top: 18px; font-size: 14px; line-height: 1.6; background: var(--bg); border-radius: 14px; padding: 14px 16px; }
+.flat { margin-top: 18px; font-size: 14px; line-height: 1.6; color: var(--muted); background: var(--bg); border-radius: 14px; padding: 14px 16px; }
+.small { margin-top: 18px; font-size: 13px; color: var(--muted); }
+.row.first .rl { color: var(--red); font-weight: 800; }
+.row.first .rb i { background: var(--red); }
+
+@media (max-width: 760px) {
+  .main { padding: 24px 5vw 48px; }
+  .lead { font-size: 16px; }
+  .qcard { padding: 22px 18px; border-radius: 18px; }
+  .qcard h2 { min-height: 0; }
+  .opts button { font-size: 15px; padding: 14px; }
+  .scale { gap: 5px; }
+  .scale button { padding: 8px 2px; }
+  .scale button b { font-size: 16px; }
+  .nav .btn, .nav .ghost { padding: 13px 24px; }
+  .btn { width: 100%; text-align: center; }
+  .nav .btn { width: auto; }
+  .cta { padding: 24px 20px; }
+  .cta h2 { font-size: 23px; }
+  .btn.white { white-space: normal; }
+  .sect { font-size: 22px; margin-top: 36px; }
+  .video { aspect-ratio: 16 / 11; }
+}

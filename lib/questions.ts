@@ -1,48 +1,97 @@
 import type { PatternKey } from './patterns';
 
-export type Question = { id: number; pattern: PatternKey; text: string };
+// PART 1: 20 statements, two per pattern, written as real moments rather than traits.
+export type Statement = { id: number; pattern: PatternKey; text: string };
 
-// 30 statements, three per pattern, mixed so no two in a row share a pattern.
-// These are drafts for Joe to approve.
 const RAW: [PatternKey, string][] = [
+  ['controller', 'When a project starts slipping, I step in and take over.'],
+  ['pleaser', 'I say yes to things I don’t have time for, so I don’t let anyone down.'],
+  ['vigilant', 'I lie awake running through what could go wrong.'],
   ['critic', 'When something goes wrong, my first thought is what I did wrong.'],
-  ['controller', 'When a situation feels out of my hands, I get tense until I take charge.'],
-  ['pleaser', 'I say yes to things I do not have time for, so I do not let people down.'],
-  ['restless', 'I get bored quickly and look for the next exciting thing.'],
-  ['vigilant', 'I lie awake running through everything that could go wrong.'],
-  ['avoider', 'I put off hard conversations, hoping they will sort themselves out.'],
-  ['achiever', 'I feel good about myself mostly when I am winning or achieving.'],
-  ['stickler', 'If it is not done properly, I would rather do it myself.'],
-  ['rational', 'When emotions run high, I step back and analyse instead of feeling.'],
-  ['victim', 'When things go wrong, it feels like it always happens to me.'],
-  ['critic', 'I notice what people are doing wrong before I notice what they are doing right.'],
+  ['restless', 'I get bored fast and start looking for the next thing.'],
+  ['avoider', 'I put off hard conversations, hoping they’ll sort themselves out.'],
+  ['achiever', 'I feel good about myself mostly when I’m winning.'],
+  ['stickler', 'If it’s not done properly, I’d rather do it myself.'],
+  ['rational', 'When people get emotional, I go straight to solving the problem.'],
+  ['victim', 'When things go wrong, it feels like they always happen to me.'],
+  ['controller', 'I get tense when the decision isn’t mine to make.'],
   ['avoider', 'When a task feels unpleasant, I find something easier to do first.'],
-  ['controller', 'I find it hard to let others do things their own way.'],
-  ['achiever', 'When one goal is done, I am already chasing the next without stopping to enjoy it.'],
-  ['pleaser', 'I find it hard to ask for help, but easy to give it.'],
-  ['stickler', 'Small mistakes bother me long after others have moved on.'],
-  ['vigilant', 'I find it hard to relax, even when things are going well.'],
-  ['rational', 'I get impatient with people who make decisions based on feelings.'],
-  ['restless', 'I keep myself busy so I do not have to sit with how I feel.'],
-  ['victim', 'My feelings about a setback stay with me for a long time.'],
-  ['critic', 'Even after a win, I focus on what could have gone better.'],
-  ['controller', 'Under pressure, I push people harder to get the result I want.'],
-  ['avoider', 'I would rather keep the peace than say what I really think.'],
-  ['achiever', 'I worry about how my results make me look to others.'],
-  ['vigilant', 'I double check things because I expect something to slip.'],
-  ['pleaser', 'I feel hurt when the effort I put into others goes unnoticed.'],
-  ['rational', 'People have told me I come across as cold or distant when things get tense.'],
-  ['stickler', 'I get frustrated when people are messy, late or disorganised.'],
-  ['restless', 'I start more things than I finish.'],
-  ['victim', 'I sometimes pull back so others will notice something is wrong.'],
+  ['critic', 'I notice what’s wrong with someone’s work before I notice what’s right.'],
+  ['achiever', 'When I hit a goal, I’m onto the next one before I’ve enjoyed it.'],
+  ['pleaser', 'Helping other people is easy for me. Asking for help isn’t.'],
+  ['stickler', 'Small mistakes bother me long after everyone else has moved on.'],
+  ['vigilant', 'Even when things are going well, I’m waiting for something to slip.'],
+  ['rational', 'People have told me I seem cold when things get tense.'],
+  ['restless', 'I keep myself busy so I don’t have to sit with how I feel.'],
+  ['victim', 'When I’m upset, I want people to notice without me having to say it.'],
 ];
 
-export const QUESTIONS: Question[] = RAW.map(([pattern, text], i) => ({ id: i + 1, pattern, text }));
+export const STATEMENTS: Statement[] = RAW.map(([pattern, text], i) => ({ id: i + 1, pattern, text }));
 
 export const SCALE = [
-  { value: 1, label: 'Not like me' },
-  { value: 2, label: 'A little' },
-  { value: 3, label: 'Somewhat' },
-  { value: 4, label: 'Mostly' },
-  { value: 5, label: 'Very like me' },
+  { value: 1, label: 'Not me' },
+  { value: 2, label: 'Rarely' },
+  { value: 3, label: 'Sometimes' },
+  { value: 4, label: 'Often' },
+  { value: 5, label: 'That’s me' },
 ];
+
+// PART 2: 5 pressure moments. They pick the reaction closest to what they'd
+// actually do. Forced choice stops anyone rating everything high, and every
+// pattern shows up at least twice across the five.
+export type Scenario = { id: string; setup: string; options: { pattern: PatternKey; text: string }[] };
+
+export const SCENARIOS: Scenario[] = [
+  {
+    id: 's1',
+    setup: 'It’s 9pm. Your biggest client emails: they’re unhappy, and they want a call first thing tomorrow.',
+    options: [
+      { pattern: 'controller', text: 'I start working out the fix tonight and plan exactly how the call will go.' },
+      { pattern: 'vigilant', text: 'I barely sleep. I’m running through every way this could go wrong.' },
+      { pattern: 'avoider', text: 'I’ll deal with it in the morning. No point ruining my night.' },
+      { pattern: 'pleaser', text: 'I reply right away, apologize, and offer whatever they need.' },
+    ],
+  },
+  {
+    id: 's2',
+    setup: 'A project you really care about just missed its deadline.',
+    options: [
+      { pattern: 'stickler', text: 'I go through it piece by piece to find exactly where it went wrong.' },
+      { pattern: 'achiever', text: 'My first worry is how this makes me look.' },
+      { pattern: 'victim', text: 'Of course. Something always goes wrong for me.' },
+      { pattern: 'restless', text: 'I’m already thinking about the next project.' },
+    ],
+  },
+  {
+    id: 's3',
+    setup: 'Someone on your team pushes back on your idea in front of everyone.',
+    options: [
+      { pattern: 'controller', text: 'I hold my ground. It’s my call.' },
+      { pattern: 'rational', text: 'I walk them through the logic until they see it.' },
+      { pattern: 'pleaser', text: 'I back down. It’s not worth the friction.' },
+      { pattern: 'avoider', text: 'I say it’s fine and move on, even if it isn’t.' },
+    ],
+  },
+  {
+    id: 's4',
+    setup: 'You’ve got a whole Saturday with nothing planned.',
+    options: [
+      { pattern: 'restless', text: 'I fill it fast. An empty day makes me antsy.' },
+      { pattern: 'achiever', text: 'I get some work done. Rest can wait.' },
+      { pattern: 'vigilant', text: 'I can’t fully relax. Something’s probably waiting for me.' },
+      { pattern: 'stickler', text: 'I finally fix the things that aren’t the way I like them.' },
+    ],
+  },
+  {
+    id: 's5',
+    setup: 'Someone close to you says you’ve seemed distant lately.',
+    options: [
+      { pattern: 'rational', text: 'I ask for specific examples so I can understand it.' },
+      { pattern: 'victim', text: 'It stings for days. I’m doing my best.' },
+      { pattern: 'avoider', text: 'I tell them I’m fine. It’s just a busy stretch.' },
+      { pattern: 'pleaser', text: 'I worry I’ve let them down and try to make it up to them.' },
+    ],
+  },
+];
+
+export const CORE_COUNT = STATEMENTS.length + SCENARIOS.length;

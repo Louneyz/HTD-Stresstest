@@ -1,5 +1,6 @@
 // The ten stress patterns. Internal keys follow the saboteurs Joe teaches,
-// but the app only ever shows the plain-language description, never the name.
+// but the app only ever describes them, it never shows the names.
+// All copy is written in Joe's voice, talking straight to the reader.
 
 export type PatternKey =
   | 'critic'
@@ -15,11 +16,11 @@ export type PatternKey =
 
 export type Pattern = {
   key: PatternKey;
-  /** Finishes the sentence "When pressure rises, ..." */
+  /** Finishes "When the pressure's on, ..." */
   headline: string;
-  /** Short label used in the bar chart */
+  /** Short label for the bar chart */
   short: string;
-  explanation: string;
+  body: string;
   signs: string[];
   upside: string;
   cost: string;
@@ -29,154 +30,114 @@ export type Pattern = {
 
 export const INNER_CRITIC: Pattern = {
   key: 'critic',
-  headline: 'you are hardest on yourself',
-  short: 'The inner critic',
-  explanation:
-    'The inner critic is the voice that finds fault with you, with other people and with the situation. Everyone has one, and it tends to set off the other patterns.',
-  signs: [
-    'Going over what you did wrong long after it is done',
-    'Noticing faults in others before their effort',
-    'Finding the flaw in a win',
-  ],
-  upside: 'It wants you to do well.',
-  cost: 'Constant pressure that never says well done.',
+  headline: 'you’re hardest on yourself',
+  short: 'Your inner critic',
+  body:
+    'There’s a voice that finds fault. With you, with the people around you, with how things went. Everyone has one. It’s usually the one that sets off everything else, and turning its volume down is where most of the work starts.',
+  signs: [],
+  upside: '',
+  cost: '',
   videoUrl: '',
 };
 
 export const PATTERNS: Pattern[] = [
   {
-    key: 'avoider',
-    headline: 'you keep the peace and put off the hard thing',
-    short: 'Keeps the peace',
-    explanation:
-      'Under stress you steer toward what feels pleasant and away from what feels hard. Conflict, difficult tasks and uncomfortable feelings get pushed down the road, in the hope they sort themselves out.',
-    signs: [
-      'Putting off conversations you know you need to have',
-      'Filling the day with easier tasks first',
-      'Saying everything is fine when it is not',
-    ],
-    upside: 'You bring calm and make people feel at ease.',
-    cost: 'Problems grow while they wait, and people never get the real you.',
-    videoUrl: '',
-  },
-  {
     key: 'controller',
-    headline: 'you take charge to feel safe',
-    short: 'Takes charge',
-    explanation:
-      'When things feel uncertain, you grab the wheel. Taking charge settles your nerves, but it can leave the people around you feeling pushed, unheard or not trusted.',
-    signs: [
-      'Struggling to let others do it their way',
-      'Pushing harder when results slip',
-      'Feeling anxious when a plan is out of your hands',
-    ],
-    upside: 'You make things happen and people know where they stand.',
-    cost: 'People stop bringing ideas, and you end up carrying it all alone.',
+    headline: 'you take over',
+    short: 'Takes over',
+    body:
+      'When things feel uncertain, you grab the wheel. It works, mostly. Things get done. But the people around you stop stepping up, because you always step in first. From the inside it feels like leadership. From the outside it can feel like you don’t trust them.',
+    signs: ['Everything still runs through you', 'You redo work instead of handing it back', 'Your shoulders don’t drop until you’re in charge'],
+    upside: 'You make things happen, and people know where they stand.',
+    cost: 'Your team stops growing, and you end up carrying all of it.',
     videoUrl: '',
   },
   {
     key: 'achiever',
-    headline: 'your worth rides on the next win',
+    headline: 'you prove yourself with the next win',
     short: 'Chases the win',
-    explanation:
-      'Your sense of worth is tied to how you perform. A win feels good for a moment, then the bar moves. Rest can feel like falling behind.',
-    signs: [
-      'Moving to the next goal without enjoying the last one',
-      'Worrying about how your results look to others',
-      'Struggling to switch off',
-    ],
-    upside: 'You are driven and you deliver.',
-    cost: 'Burnout, and relationships that come second to the next target.',
+    body:
+      'Your worth rides on your results. A win feels great for about a day, then the bar moves. Rest feels like falling behind. You’ve built a lot this way. The problem is it never feels like enough.',
+    signs: ['You’re onto the next goal before you’ve enjoyed the last one', 'How your results look matters a lot to you', 'Switching off is harder than working'],
+    upside: 'You’re driven, and you deliver.',
+    cost: 'Burnout, and the people at home getting what’s left.',
     videoUrl: '',
   },
   {
     key: 'rational',
-    headline: 'you think your way out of feeling',
+    headline: 'you think instead of feel',
     short: 'Thinks, not feels',
-    explanation:
-      'You handle pressure by thinking it through. Logic feels safe and feelings feel messy, so emotions, yours and other people’s, get set aside.',
-    signs: [
-      'Analysing when someone needs you to listen',
-      'Getting impatient with decisions made on feeling',
-      'Coming across as cool or distant in tense moments',
-    ],
-    upside: 'You stay clear headed when others panic.',
-    cost: 'People can feel judged or unseen, and trust gets thinner.',
+    body:
+      'Under pressure you go to logic. Feelings feel messy, so you set them aside. Yours and everybody else’s. You’re the calm one in the room. But calm can read as cold, and people stop telling you what’s really going on.',
+    signs: ['You start solving when someone needs you to listen', 'Decisions made on feelings frustrate you', 'People have called you distant when things get tense'],
+    upside: 'You keep a clear head when others panic.',
+    cost: 'People feel judged or unseen, and trust gets thin.',
     videoUrl: '',
   },
   {
     key: 'vigilant',
-    headline: 'you scan for everything that could go wrong',
-    short: 'Scans for danger',
-    explanation:
-      'Your mind is always on watch. Under stress it runs through every risk and everything that might slip, which keeps you prepared but rarely at rest.',
-    signs: [
-      'Lying awake running through what could go wrong',
-      'Double checking your work and other people’s',
-      'Finding it hard to relax, even on a good day',
-    ],
-    upside: 'You spot risks other people miss.',
-    cost: 'Constant tension that wears down you and the people around you.',
+    headline: 'you brace for what could go wrong',
+    short: 'Braced for trouble',
+    body:
+      'Your mind is always on watch. It runs every risk, every what if, everything that might slip. It keeps you prepared. It also keeps you tired, because the watch never really ends.',
+    signs: ['Lying awake running through what could go wrong', 'Checking things twice, then once more', 'Finding it hard to relax, even on a good day'],
+    upside: 'You see risks other people miss.',
+    cost: 'A constant hum of tension that wears on you and everyone near you.',
     videoUrl: '',
   },
   {
     key: 'pleaser',
-    headline: 'you give to be liked',
-    short: 'Gives to be liked',
-    explanation:
-      'You look after everyone else first. Helping feels good and keeps people close, but your own needs end up last and resentment builds quietly.',
-    signs: [
-      'Saying yes when you mean no',
-      'Finding it hard to ask for help',
-      'Feeling hurt when your effort goes unnoticed',
-    ],
-    upside: 'You are generous and people feel cared for.',
+    headline: 'you look after everyone else first',
+    short: 'Puts others first',
+    body:
+      'You help. You say yes. You’re the one people lean on. It feels good, and it keeps people close. But your own needs end up last, and somewhere underneath, the resentment builds quietly.',
+    signs: ['Saying yes when you mean no', 'Giving help is easy, asking for it isn’t', 'Feeling hurt when nobody notices the effort'],
+    upside: 'You’re generous, and people feel cared for.',
     cost: 'Exhaustion, and help that comes with strings you never say out loud.',
     videoUrl: '',
   },
   {
+    key: 'avoider',
+    headline: 'you keep the peace',
+    short: 'Keeps the peace',
+    body:
+      'You steer toward what feels good and away from what feels hard. The tough conversation can wait. The ugly task can wait. You keep things pleasant. Meanwhile the problem doesn’t wait. It grows.',
+    signs: ['Putting off conversations you know you need to have', 'Doing the easy things first, every time', 'Saying it’s fine when it isn’t'],
+    upside: 'You bring calm, and people feel at ease around you.',
+    cost: 'Small problems turn into big ones, and people never get the real you.',
+    videoUrl: '',
+  },
+  {
     key: 'restless',
-    headline: 'you chase the next thing',
+    headline: 'you look for the next thing',
     short: 'Chases the next thing',
-    explanation:
-      'Under pressure you reach for something new. Staying busy keeps difficult feelings at arm’s length, but very little gets your full attention.',
-    signs: [
-      'Getting bored quickly',
-      'Starting more than you finish',
-      'Keeping busy so you do not have to sit with how you feel',
-    ],
+    body:
+      'When it gets heavy, you get busy. A new idea, a new project, something to fill the space. It keeps the hard feelings at arm’s length. It also means very little gets your full attention, including the people in front of you.',
+    signs: ['Getting bored quickly', 'Starting more than you finish', 'Staying busy so you don’t have to sit still'],
     upside: 'You bring energy and fresh ideas.',
-    cost: 'Scattered focus, and missing what is right in front of you.',
+    cost: 'Scattered focus, and missing what’s right in front of you.',
     videoUrl: '',
   },
   {
     key: 'stickler',
-    headline: 'it has to be just right',
+    headline: 'it has to be right',
     short: 'Has to be right',
-    explanation:
-      'You need things done properly. Order and detail feel like control, so mistakes, yours and other people’s, sting more than they should.',
-    signs: [
-      'Redoing work rather than letting it be good enough',
-      'Small mistakes bothering you long after',
-      'Frustration when others are late or messy',
-    ],
-    upside: 'Your standards are high and your work is reliable.',
-    cost: 'Stress for you, and for the people who feel they can never get it right.',
+    body:
+      'You need it done properly. Order and detail feel like safety, so mistakes sting. Yours and other people’s. High standards are a good thing. Until nothing is ever good enough.',
+    signs: ['Redoing work instead of letting it be good enough', 'Small mistakes bothering you long after', 'Getting frustrated when people are late or messy'],
+    upside: 'Your standards are high, and your work is reliable.',
+    cost: 'Pressure on you, and people who feel they can never get it right.',
     videoUrl: '',
   },
   {
     key: 'victim',
-    headline: 'you feel it harder and longer',
+    headline: 'you feel it harder, and it stays',
     short: 'Feels it harder',
-    explanation:
-      'When things go wrong, the feeling hits hard and stays. It can seem like things always happen to you, and pulling back becomes a way of showing something is wrong.',
-    signs: [
-      'Replaying setbacks for a long time',
-      'Feeling misunderstood',
-      'Withdrawing so others will notice',
-    ],
-    upside: 'You feel deeply and understand pain in others.',
-    cost: 'Energy goes into the hurt instead of what comes next.',
+    body:
+      'When something goes wrong, it hits deep and it lingers. It can feel like these things always happen to you. Sometimes you pull back and hope someone notices. You feel things fully, and that’s real. It just keeps you stuck in the hurt.',
+    signs: ['Replaying setbacks for days', 'Feeling misunderstood', 'Going quiet so people will ask what’s wrong'],
+    upside: 'You feel deeply, and you understand other people’s pain.',
+    cost: 'Your energy goes into the hurt instead of what comes next.',
     videoUrl: '',
   },
 ];

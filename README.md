@@ -1,6 +1,8 @@
 # The Stress Test
 
-A Headtrash Dojo skeleton: 30 statements, a 1 to 5 slider for each, an email step, then results showing the person's strongest stress pattern, a slot for Joe's video, their full picture, and a button to book a discovery webinar.
+A Headtrash Dojo skeleton. Version 2: 20 statements on a 1 to 5 slider, 5 pressure moments where they pick what they'd actually do, a tiebreak only when the top two are close, an email step, then results in Joe's voice with a slot for his video and a button to book a discovery webinar.
+
+Version 1 (30 statements, plainer copy) is kept as the git tag `v1` and the branch `v1`, so both can be deployed and compared.
 
 Branding matches the Headtrash Dojo Live pipeline PDF: navy `#052649`, red `#eb2427`, Poppins, the vector logo and the slash header.
 
@@ -25,9 +27,9 @@ Open http://localhost:3000.
 
 | File | What it holds |
 |---|---|
-| `lib/questions.ts` | The 30 statements (drafts for Joe to approve) and the 1 to 5 labels |
+| `lib/questions.ts` | The 20 statements, the 5 pressure moments (drafts for Joe to approve) and the 1 to 5 labels |
 | `lib/patterns.ts` | The 10 stress patterns: plain-language headline, explanation, signs, upside, cost, and a `videoUrl` for Joe's video |
-| `lib/scoring.ts` | Scoring: each pattern is 3 statements, turned into 0 to 100%. The top pattern leaves out the inner critic, which everyone has and is shown on its own |
+| `lib/scoring.ts` | Scoring: statements count 70% and pressure moments 30%. If someone rates everything about the same, the pressure moments count 50%. A tiebreak question appears only when the top two are within 6 points. The inner critic is scored on its own |
 | `components/StressTest.tsx` | The screens: intro, statements, email step, results |
 | `app/globals.css` | All styling |
 
