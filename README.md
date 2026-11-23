@@ -20,8 +20,22 @@ Open http://localhost:3000.
 
 ## Put it on Vercel
 
-1. In Vercel, choose **Add New Project** and import this repo. It detects Next.js, so no settings are needed.
-2. Optional: add the environment variable `NEXT_PUBLIC_BOOKING_URL` with the CloseEase booking page link for the discovery webinar. Without it, the button goes nowhere.
+1. In Vercel, choose **Add New Project** and import this repo. It detects Next.js, so no build settings are needed.
+2. Add the environment variables from `.env.example`. Only `RESEND_API_KEY` is needed for the email to send; the rest have sensible defaults.
+
+## The results email
+
+When someone enters their name and email, the app calls `/api/results`, which:
+
+1. Works out their scores with the same code the results page uses.
+2. Fills the branded template in `emails/ResultsEmail.tsx` (React Email) and sends it through Resend.
+3. Optionally sends them to CloseEase as a lead, tagged `stress-test`, `pattern-<their top pattern>` and `ref-<code>`.
+
+No AI is involved: the same answers always produce the same email. The results page only says "a copy is on its way" once Resend has accepted the email.
+
+The email's "View your results online" link carries their answers in the address (`/?r=...`), so their results come back without a database.
+
+Email apps don't load Poppins or show SVG, so the logo is `public/email/logo.png`, the video thumbnail is `public/email/video.png`, and the bars are table cells.
 
 ## Where things live
 
@@ -32,6 +46,9 @@ Open http://localhost:3000.
 | `lib/scoring.ts` | Scoring: statements count 70% and pressure moments 30%. If someone rates everything about the same, the pressure moments count 50%. A tiebreak question appears only when the top two are within 6 points. The inner critic is scored on its own |
 | `components/StressTest.tsx` | The screens: intro, statements, email step, results |
 | `app/globals.css` | All styling |
+| `emails/ResultsEmail.tsx` | The results email template |
+| `app/api/results/route.ts` | Sends the email and the CloseEase lead |
+| `lib/share.ts` | Packs answers into the results link |
 
 ## How the patterns work
 
@@ -39,9 +56,7 @@ The ten patterns follow the saboteurs Joe teaches. The app never shows those nam
 
 ## Not built yet (skeleton)
 
-- **Saving the email.** The email step only moves to the results. The next step is sending the name, email and referral code to CloseEase as a new lead (`/api/public/leads/[key]`), with the code as the source.
-- **Emailing the results.**
-- **Joe's videos.** Paste each video's embed link into `videoUrl` in `lib/patterns.ts`.
+- **Joe's videos.** Paste each video's link into `videoUrl` in `lib/patterns.ts`. The email thumbnail links to it.
 - **Saving the result to their portal profile** once they buy a ticket.
 
 Progress is kept in the browser, so a refresh does not lose answers.

@@ -6,45 +6,75 @@ import { Logo } from './Logo';
 import { CORE_COUNT, SCALE, SCENARIOS, STATEMENTS } from '@/lib/questions';
 import { INNER_CRITIC, byKey, type Pattern, type PatternKey } from '@/lib/patterns';
 import { compute, type Answers, type Picks } from '@/lib/scoring';
+import { decodeResults, encodeResults } from '@/lib/share';
 
 type Step = 'intro' | 'statements' | 'scenarios' | 'tiebreak' | 'gate' | 'results';
 type Details = { name: string; email: string; ref: string };
-type State = { step: Step; si: number; ci: number; answers: Answers; picks: Picks; tiebreak?: PatternKey; details: Details };
+type Send = 'idle' | 'sending' | 'sent' | 'failed';
+type State = { step: Step; si: number; ci: number; answers: Answers; picks: Picks; tiebreak?: PatternKey; details: Details; send?: Send; shared?: boolean };
 
 const STORE = 'htd-stress-test-v2';
 const BOOKING_URL = process.env.NEXT_PUBLIC_BOOKING_URL || '#book';
+const PREVIEW = process.env.NEXT_PUBLIC_PREVIEW === '1';
 const blank = (ref: string): State => ({ step: 'intro', si: 0, ci: 0, answers: {}, picks: {}, details: { name: '', email: '', ref } });
 
 export function StressTest() {
   const params = useSearchParams();
   const demo = params.get('demo') !== null;
   const refCode = params.get('ref') ?? '';
+  const sharedCode = params.get('r');
   const [s, setS] = useState<State>(blank(refCode));
   const [loaded, setLoaded] = useState(false);
   const set = (patch: Partial<State>) => setS((x) => ({ ...x, ...patch }));
 
   // Keep progress if they refresh.
   useEffect(() => {
+    const shared = sharedCode ? decodeResults(sharedCode) : null;
+    if (shared) {
+      setS({ ...blank(refCode), step: 'results', shared: true, answers: shared.answers, picks: shared.picks, tiebreak: shared.tiebreak, details: { name: shared.name, email: '', ref: refCode } });
+      setLoaded(true);
+      return;
+    }
     try {
       const saved = JSON.parse(localStorage.getItem(STORE) || 'null');
       if (saved) setS({ ...saved, details: { ...saved.details, ref: saved.details.ref || refCode } });
     } catch {}
     setLoaded(true);
-  }, [refCode]);
+  }, [refCode, sharedCode]);
   useEffect(() => {
-    if (loaded) try { localStorage.setItem(STORE, JSON.stringify(s)); } catch {}
+    if (loaded && !s.shared) try { localStorage.setItem(STORE, JSON.stringify(s)); } catch {}
   }, [loaded, s]);
   useEffect(() => { window.scrollTo({ top: 0 }); }, [s.step]);
 
   const result = useMemo(() => compute(s.answers, s.picks, s.tiebreak), [s.answers, s.picks, s.tiebreak]);
   const afterScenarios = () => set({ step: result.needsTiebreak ? 'tiebreak' : 'gate' });
 
+  // Send their results by email (and to CloseEase as a lead) when they submit the form.
+  const sendResults = async () => {
+    set({ send: 'sending', step: 'results' });
+    if (PREVIEW) { setTimeout(() => set({ send: 'sent' }), 900); return; }
+    try {
+      const res = await fetch('/api/results', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: s.details.name, email: s.details.email, ref: s.details.ref,
+          code: encodeResults({ name: s.details.name, answers: s.answers, picks: s.picks, tiebreak: s.tiebreak }),
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      set({ send: data.sent ? 'sent' : 'failed' });
+    } catch {
+      set({ send: 'failed' });
+    }
+  };
+
   const sample = () => {
     const answers: Answers = {};
     for (const q of STATEMENTS) answers[q.id] = 1 + Math.floor(Math.random() * 5);
     const picks: Picks = {};
     for (const sc of SCENARIOS) picks[sc.id] = sc.options[Math.floor(Math.random() * 4)].pattern;
-    setS((x) => ({ ...x, answers, picks, tiebreak: undefined, step: 'results', details: { ...x.details, name: x.details.name || 'Sam' } }));
+    setS((x) => ({ ...x, answers, picks, tiebreak: undefined, step: 'results', details: { ...x.details, name: x.details.name || 'Sam', email: x.details.email || 'sam@example.com' }, send: 'sent' }));
   };
 
   return (
@@ -81,9 +111,9 @@ export function StressTest() {
           <Tiebreak a={byKey(result.ranked[0])} b={byKey(result.ranked[1])} onPick={(k) => set({ tiebreak: k, step: 'gate' })} />
         )}
 
-        {s.step === 'gate' && <Gate details={s.details} onChange={(d) => set({ details: d })} onSubmit={() => set({ step: 'results' })} />}
+        {s.step === 'gate' && <Gate details={s.details} onChange={(d) => set({ details: d })} onSubmit={sendResults} />}
 
-        {s.step === 'results' && <Results result={result} name={s.details.name} email={s.details.email} onRestart={() => setS(blank(refCode))} />}
+        {s.step === 'results' && <Results result={result} name={s.details.name} email={s.details.email} send={s.shared ? 'idle' : s.send ?? 'idle'} onRestart={() => { if (s.shared) window.history.replaceState(null, '', window.location.pathname); setS(blank(refCode)); }} />}
       </main>
 
       <footer className={`band ${s.step === 'results' ? '' : 'quiet'}`}>
@@ -258,7 +288,7 @@ function Gate({ details, onChange, onSubmit }: { details: Details; onChange: (d:
   );
 }
 
-function Results({ result, name, email, onRestart }: { result: ReturnType<typeof compute>; name: string; email: string; onRestart: () => void }) {
+function Results({ result, name, email, send, onRestart }: { result: ReturnType<typeof compute>; name: string; email: string; send: Send; onRestart: () => void }) {
   const { scores, ranked, flat } = result;
   const top = byKey(ranked[0]);
   return (
@@ -267,7 +297,8 @@ function Results({ result, name, email, onRestart }: { result: ReturnType<typeof
       <h1 className="h1s">When the pressure’s on, {top.headline}.</h1>
       <p className="pill">Your strongest stress pattern</p>
 
-      {email && <p className="sent"><span aria-hidden>✓</span> A copy of your results is on its way to <b>{email}</b>.</p>}
+      {email && send === 'sending' && <p className="sent pending">Sending a copy of your results to <b>{email}</b>…</p>}
+      {email && send === 'sent' && <p className="sent"><span aria-hidden>✓</span> A copy of your results is on its way to <b>{email}</b>.</p>}
 
       <Video pattern={top} />
 

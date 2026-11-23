@@ -373,3 +373,4 @@ h1 { font-size: clamp(44px, 7vw, 76px); font-weight: 800; line-height: 1.02; let
   .sent b { word-break: break-word; overflow-wrap: anywhere; }
 }
 @media (max-width: 760px) { .h1s { line-height: 1.12; } }
+.sent.pending { background: var(--bg); color: var(--muted); }
