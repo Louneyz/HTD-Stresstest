@@ -116,7 +116,7 @@ function Intro({ onStart, demo, onSample }: { onStart: () => void; demo: boolean
       </div>
       <blockquote className="joe">
         <span className="q" aria-hidden>“</span>
-        I built this so you’d have a name for what happens under pressure. Knowing the name isn’t the work. But it’s a good place to start.
+        Pressure doesn’t give you new habits. It just turns up the volume on the old ones. Let’s find out which one is loudest for you.
         <span className="by">Joe Heraldo</span>
       </blockquote>
     </section>
