@@ -83,7 +83,7 @@ export function StressTest() {
 
         {s.step === 'gate' && <Gate details={s.details} onChange={(d) => set({ details: d })} onSubmit={() => set({ step: 'results' })} />}
 
-        {s.step === 'results' && <Results result={result} name={s.details.name} onRestart={() => setS(blank(refCode))} />}
+        {s.step === 'results' && <Results result={result} name={s.details.name} email={s.details.email} onRestart={() => setS(blank(refCode))} />}
       </main>
 
       <footer className={`band ${s.step === 'results' ? '' : 'quiet'}`}>
@@ -258,7 +258,7 @@ function Gate({ details, onChange, onSubmit }: { details: Details; onChange: (d:
   );
 }
 
-function Results({ result, name, onRestart }: { result: ReturnType<typeof compute>; name: string; onRestart: () => void }) {
+function Results({ result, name, email, onRestart }: { result: ReturnType<typeof compute>; name: string; email: string; onRestart: () => void }) {
   const { scores, ranked, flat } = result;
   const top = byKey(ranked[0]);
   return (
@@ -267,18 +267,23 @@ function Results({ result, name, onRestart }: { result: ReturnType<typeof comput
       <h1 className="h1s">When the pressure’s on, {top.headline}.</h1>
       <p className="pill">Your strongest stress pattern</p>
 
-      <div className="grid2">
-        <div className="card">
-          <p>{top.body}</p>
+      {email && <p className="sent"><span aria-hidden>✓</span> A copy of your results is on its way to <b>{email}</b>.</p>}
+
+      <Video pattern={top} />
+
+      <div className="card split">
+        <div>
+          <p className="body">{top.body}</p>
           <h3>You might notice</h3>
           <ul className="ticks">{top.signs.map((x) => <li key={x}>{x}</li>)}</ul>
+        </div>
+        <div>
           <div className="pair">
             <div><span>What it gives you</span><p>{top.upside}</p></div>
             <div className="red"><span>What it costs you</span><p>{top.cost}</p></div>
           </div>
           <p className="honest">Here’s the honest bit. This isn’t a flaw. It probably got you a long way. It’s just running on fear instead of on purpose.</p>
         </div>
-        <Video pattern={top} />
       </div>
 
       {flat && (

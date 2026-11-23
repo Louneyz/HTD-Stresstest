@@ -350,3 +350,26 @@ h1 { font-size: clamp(44px, 7vw, 76px); font-weight: 800; line-height: 1.02; let
 .rd { margin-top: 1px; font-size: 12.5px; line-height: 1.4; color: var(--muted); }
 .row.first .rd { color: var(--navy); }
 @media (max-width: 760px) { .sect-sub { font-size: 13px; } .rd { font-size: 12px; } }
+
+/* v2.4: video first on the results */
+.sent { margin-top: 14px; display: inline-flex; align-items: center; gap: 8px; background: #e8f3ec; color: #1d5c39; font-size: 13.5px; border-radius: 999px; padding: 7px 14px; }
+.sent span { font-weight: 800; color: #1d7a45; }
+.sent b { word-break: break-all; }
+.results .video { margin-top: 22px; aspect-ratio: 16 / 9; max-width: 860px; }
+.card.split { margin-top: 18px; display: grid; grid-template-columns: 1.15fr 1fr; gap: 26px; }
+.card.split .body { font-size: 15px; line-height: 1.65; }
+.card.split .pair { margin-top: 0; grid-template-columns: 1fr; }
+@media (max-width: 760px) {
+  .sent { display: flex; border-radius: 12px; font-size: 12.5px; align-items: flex-start; }
+  .results .video { aspect-ratio: 16 / 10; margin-top: 16px; border-radius: 16px; }
+  .card.split { grid-template-columns: 1fr; gap: 0; padding: 20px; }
+  .card.split .pair { margin-top: 16px; }
+}
+.sent { display: inline-block; line-height: 1.5; }
+.sent span { margin-right: 4px; }
+.results .video { max-width: none; width: 100%; }
+@media (max-width: 760px) {
+  .sent { display: block; }
+  .sent b { word-break: break-word; overflow-wrap: anywhere; }
+}
+@media (max-width: 760px) { .h1s { line-height: 1.12; } }
