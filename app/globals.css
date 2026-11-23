@@ -341,3 +341,12 @@ h1 { font-size: clamp(44px, 7vw, 76px); font-weight: 800; line-height: 1.02; let
   .intro { justify-content: center; }
   .joe { margin-top: clamp(14px, 3.2dvh, 30px); }
 }
+
+/* v2.3: plain explanation under each bar */
+.sect-sub { margin-top: 6px; max-width: 640px; font-size: 14px; line-height: 1.55; color: var(--muted); }
+.results .grid2 { margin-top: 20px; }
+.row { margin-bottom: 16px; }
+.row:last-child { margin-bottom: 0; }
+.rd { margin-top: 1px; font-size: 12.5px; line-height: 1.4; color: var(--muted); }
+.row.first .rd { color: var(--navy); }
+@media (max-width: 760px) { .sect-sub { font-size: 13px; } .rd { font-size: 12px; } }

@@ -286,11 +286,13 @@ function Results({ result, name, onRestart }: { result: ReturnType<typeof comput
       )}
 
       <h2 className="sect">The full picture</h2>
+      <p className="sect-sub">Everyone has all of these. The bars show how loud each one was in your answers. Your top two or three are the ones worth watching.</p>
       <div className="grid2">
         <div className="card">
           {ranked.map((k) => (
             <div key={k} className={`row ${k === top.key ? 'first' : ''}`}>
               <div className="rl"><span>{byKey(k).short}</span><b>{scores[k]}%</b></div>
+              <p className="rd">{byKey(k).line}</p>
               <div className="rb"><i style={{ width: `${Math.max(scores[k], 2)}%` }} /></div>
             </div>
           ))}
