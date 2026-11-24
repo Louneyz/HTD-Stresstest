@@ -2,7 +2,17 @@
 
 A Headtrash Dojo skeleton. Version 2: 20 statements on a 1 to 5 slider, 5 pressure moments where they pick what they'd actually do, a tiebreak only when the top two are close, an email step, then results in Joe's voice with a slot for his video and a button to book a discovery webinar.
 
-Version 1 (30 statements, plainer copy) is kept as the git tag `v1` and the branch `v1`, so both can be deployed and compared.
+Every version is kept as its own branch, so each one can be deployed and compared:
+
+| Branch | What it is |
+|---|---|
+| `v1` | First skeleton: 30 statements, plainer copy |
+| `v2-0` | 25 questions, all copy in Joe's voice |
+| `v2-1` | Fits on one screen until the results |
+| `v2-2` | Phone spacing, new intro line from Joe |
+| `v2-3` | One plain line under each result bar |
+| `v2-4` | Joe's video first on the results |
+| `main` | v2.5: the branded results email through Resend |
 
 Branding matches the Headtrash Dojo Live pipeline PDF: navy `#052649`, red `#eb2427`, Poppins, the vector logo and the slash header.
 
